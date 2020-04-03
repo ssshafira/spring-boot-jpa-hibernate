@@ -39,7 +39,7 @@ public class CheckInDaoImpl extends CustomRepo implements CheckInDao {
 	public CheckIn findById(Integer id) {
 		Query q = em.createQuery(" from CheckIn where idIn =:idParam");
 		q.setParameter("idParam", id);
-		return (CheckIn) q.getResultList();
+		return (CheckIn) q.getSingleResult();
 	}
 
 	@Override

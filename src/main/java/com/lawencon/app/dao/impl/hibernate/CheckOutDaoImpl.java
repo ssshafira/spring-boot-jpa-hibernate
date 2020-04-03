@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.lawencon.app.dao.CheckOutDao;
-import com.lawencon.app.model.CheckIn;
 import com.lawencon.app.model.CheckOut;
 import com.lawencon.app.service.CheckOutService;
 
@@ -18,7 +17,7 @@ public class CheckOutDaoImpl extends CustomRepo implements CheckOutDao {
 
 	@Autowired
 	private CheckOutService coService;
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CheckOut> findAll() throws Exception {
@@ -30,7 +29,7 @@ public class CheckOutDaoImpl extends CustomRepo implements CheckOutDao {
 	public CheckOut findById(Integer id) {
 		Query q = em.createQuery(" from CheckOut where idOut =:idParam");
 		q.setParameter("idParam", id);
-		return (CheckOut) q.getResultList();
+		return (CheckOut) q.getSingleResult();
 	}
 
 	@Override
@@ -42,20 +41,33 @@ public class CheckOutDaoImpl extends CustomRepo implements CheckOutDao {
 
 	@Override
 	public boolean insert(CheckOut co) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+		boolean stat = false;
+		Date dt = coService.findDateInById(co.getCheckIn().getIdIn());
+		if (dt.before(co.getTimeOut())) {
+			CheckOut cek = new CheckOut();
+			cek.setCheckIn(co.getCheckIn());
+			cek.setTimeOut(co.getTimeOut());
+			em.persist(cek);
+			stat = true;
+		} else
+			stat = false;
+		return stat;
 	}
 
 	@Override
 	public void update(CheckOut co) throws Exception {
-		// TODO Auto-generated method stub
-		
+		CheckOut cek = new CheckOut();
+		cek = findById(co.getIdOut());
+		cek.setCheckIn(co.getCheckIn());
+		cek.setTimeOut(co.getTimeOut());
+		em.merge(cek);
 	}
 
 	@Override
 	public void delete(CheckOut co) throws Exception {
-		// TODO Auto-generated method stub
-		
+		CheckOut cek = new CheckOut();
+		cek = findById(co.getIdOut());
+		em.remove(cek);
 	}
 
 }

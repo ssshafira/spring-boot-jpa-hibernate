@@ -7,12 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.lawencon.app.dao.CheckOutDao;
-import com.lawencon.app.dao.impl.hibernate.CustomRepo;
 import com.lawencon.app.model.CheckOut;
 import com.lawencon.app.service.CheckOutService;
 
 @Repository("cekout_repo_jpa")
-public class CheckOutDaoImpl extends CustomRepo implements CheckOutDao {
+public class CheckOutDaoImpl implements CheckOutDao {
 	
 	@Autowired
 	private CheckOutRepo coRepo;
@@ -43,7 +42,7 @@ public class CheckOutDaoImpl extends CustomRepo implements CheckOutDao {
 			CheckOut cek = new CheckOut();
 			cek.setCheckIn(co.getCheckIn());
 			cek.setTimeOut(co.getTimeOut());
-			em.persist(cek);
+			coRepo.save(cek);
 			stat = true;
 		} else stat = false;
 		return stat;
@@ -55,16 +54,14 @@ public class CheckOutDaoImpl extends CustomRepo implements CheckOutDao {
 		cek = findById(co.getIdOut());
 		cek.setCheckIn(co.getCheckIn());
 		cek.setTimeOut(co.getTimeOut());
-		em.merge(cek);
+		coRepo.save(cek);
 	}
 
 	@Override
 	public void delete(CheckOut co) throws Exception {
 		CheckOut cek = new CheckOut();
 		cek = findById(co.getIdOut());
-		em.remove(cek);
-	}
-	
-	
+		coRepo.delete(cek);
+	}	
 
 }

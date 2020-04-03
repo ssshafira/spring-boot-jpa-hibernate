@@ -16,10 +16,11 @@ import com.lawencon.app.model.JenisKendaraan;
 public class JenisKendaraanImpl implements JenisKendaraanService {
 
 	@Autowired
-	@Qualifier("jenis_repo_jpa")
+	@Qualifier("jenis_repo_hibernate")
 	private JenisKendaraanDao jkDao;
 
 	@Autowired
+	@Qualifier("user_repo_hibernate")
 	private UserDao uDao;
 
 	@Override

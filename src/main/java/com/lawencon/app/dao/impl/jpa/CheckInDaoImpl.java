@@ -4,9 +4,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -22,9 +19,6 @@ public class CheckInDaoImpl implements CheckInDao {
 	
 	@Autowired
 	private CheckInService ciService;
-	
-	@PersistenceContext
-    private EntityManager em;
 
 	@Override
 	public List<CheckIn> findAll() throws Exception {
@@ -52,8 +46,7 @@ public class CheckInDaoImpl implements CheckInDao {
 				cek.setJenis(ci.getJenis());
 				cek.setPlat(ci.getPlat());
 				cek.setTimeIn(ci.getTimeIn());
-				em.persist(cek);
-				stat = true;
+				ciRepo.save(cek);
 			} else stat = false;
 		} else stat = false;
 		return stat;
@@ -70,7 +63,7 @@ public class CheckInDaoImpl implements CheckInDao {
 				cek.setJenis(ci.getJenis());
 				cek.setPlat(ci.getPlat());
 				cek.setTimeIn(ci.getTimeIn());
-				em.merge(cek);
+				ciRepo.save(cek);
 			}
 		}	
 	}
@@ -79,7 +72,7 @@ public class CheckInDaoImpl implements CheckInDao {
 	public void delete(CheckIn ci) throws Exception {
 		CheckIn cek = new CheckIn();
 		cek = findById(ci.getIdIn());
-		em.remove(cek);
+		ciRepo.delete(cek);
 	}
 
 	public static boolean isParsable(String input) {

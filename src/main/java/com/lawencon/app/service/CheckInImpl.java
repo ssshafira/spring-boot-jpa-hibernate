@@ -18,10 +18,11 @@ import com.lawencon.app.model.CheckIn;
 public class CheckInImpl extends CustomRepo implements CheckInService {
 
 	@Autowired
-	@Qualifier("cekin_repo_jpa") // jika pingin ganti jpa ganti qualifiernya jadi mhs_repo_jpa
+	@Qualifier("cekin_repo_hibernate") // jika pingin ganti jpa ganti qualifiernya jadi mhs_repo_jpa
 	private CheckInDao ciDao;
 
 	@Autowired
+	@Qualifier("user_repo_hibernate")
 	private UserDao uDao;
 
 	@Override

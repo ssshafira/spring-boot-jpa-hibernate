@@ -12,7 +12,7 @@ import com.lawencon.app.dao.UserDao;
 public class UserImpl implements UserService {
 	
 	@Autowired
-	@Qualifier("user_repo_jpa") //jika pingin ganti jpa ganti qualifiernya jadi mhs_repo_jpa
+	@Qualifier("user_repo_hibernate") //jika pingin ganti jpa ganti qualifiernya jadi mhs_repo_jpa
 	private UserDao ud;
 
 	@Override

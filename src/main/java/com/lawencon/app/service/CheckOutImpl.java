@@ -17,10 +17,11 @@ import com.lawencon.app.model.CheckOut;
 public class CheckOutImpl extends CustomRepo implements CheckOutService {
 
 	@Autowired
-	@Qualifier("cekout_repo_jpa") // jika pingin ganti jpa ganti qualifiernya jadi mhs_repo_jpa
+	@Qualifier("cekout_repo_hibernate") // jika pingin ganti jpa ganti qualifiernya jadi mhs_repo_jpa
 	private CheckOutDao coDao;
 
 	@Autowired
+	@Qualifier("user_repo_hibernate")
 	UserDao uDao;
 
 	@Override
